@@ -633,6 +633,9 @@ function tryMove(x1, y1, x2, y2) {
                 }, 100);
             }
         }
+        else if (!inCheck(board, enemy, enPassantTarget, castlingRights) && !hasAnyLegalMove(enemy)) {
+          alert("Patta per stallo!");
+        }
     }
 
     selected = null;
@@ -667,3 +670,4 @@ document.getElementById("newGameBtn").addEventListener("click", () => {
     
     drawBoard();
 });
+
