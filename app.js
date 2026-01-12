@@ -2,6 +2,17 @@
 // PARTE 1/3 — Setup e funzioni base
 // ===============================
 
+// === TURN INDICATOR — helper centralizzato ===
+function updateTurnIndicator() {
+    const el = document.getElementById("turnIndicator");
+    if (!el) return;
+    const isWhite = (turn === "w");
+    el.classList.toggle("turn--white", isWhite);
+    el.classList.toggle("turn--black", !isWhite);
+    el.textContent = isWhite ? "Tocca al Bianco" : "Tocca al Nero";
+    el.setAttribute("aria-label", el.textContent);
+}
+
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
 
@@ -228,6 +239,9 @@ function init() {
     fixCanvasResolution();
     updateSquareSize();
     drawBoard();
+    // Aggiorna indicatore al carico
+    updateTurnIndicator();
+
 }
 
 window.addEventListener("load", init);
@@ -382,8 +396,9 @@ function applyMove(x1, y1, x2, y2) {
     castlingRights = result.castling;
 
     turn = turn === "w" ? "b" : "w";
-    document.getElementById("turnIndicator").textContent =
-    turn === "w" ? "Tocca al Bianco" : "Tocca al Nero";
+    
+    // aggiorna indicatore grafico (testo + colore)
+    updateTurnIndicator();
 }
 
 function hasAnyLegalMove(color) {
@@ -646,7 +661,9 @@ document.getElementById("newGameBtn").addEventListener("click", () => {
     selected = null;
     legalMoves = [];
 
-    document.getElementById("turnIndicator").textContent = "Tocca al Bianco";
-
+    
+    // Aggiorna indicatore al reset
+    updateTurnIndicator();
+    
     drawBoard();
 });
